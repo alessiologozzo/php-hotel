@@ -40,9 +40,10 @@ $hotels = [
 
 ];
 
+$indexes = [];
+
 if (!empty($_GET["voteFilter"])) {
   $voteFilter = $_GET["voteFilter"];
-  $indexes = [];
 
   if (!empty($_GET["parkingFilter"]))
     $parkingFilter = $_GET["parkingFilter"];
@@ -54,12 +55,9 @@ if (!empty($_GET["voteFilter"])) {
       array_push($indexes, $i);
 
 }
-
-// if ($voteFilter != null) {
-//   for ($i = 0; $i < count($hotels); $i++)
-//     if ($hotels[$i]["vote"] >= $voteFilter)
-//       array_push($indexes, $i);
-// }
+else
+  for($i = 0; $i < count($hotels); $i++)
+    array_push($indexes, $i);
 ?>
 
 <!DOCTYPE html>
@@ -93,7 +91,7 @@ if (!empty($_GET["voteFilter"])) {
         <label for="parking-filter">Parcheggio incluso</label>
         <input type="checkbox" name="parkingFilter" id="parking-filter" class="me-4 mt-1">
 
-        <input type="submit" value="Filtra" name="submitButton">
+        <input type="submit" value="Filtra">
       </form>
     </div>
     <table class="table table-dark table-striped">
@@ -135,6 +133,25 @@ if (!empty($_GET["voteFilter"])) {
       </tbody>
     </table>
   </div>
+
+  <script>
+    let voteFilter = -1;
+    if(<?php echo(json_encode($voteFilter)); ?> != null)
+      voteFilter = <?php echo(json_encode($voteFilter)); ?>
+
+    let parkingFilter = -1;
+    if(<?php echo(json_encode($parkingFilter)); ?> != null)
+      parkingFilter = <?php echo(json_encode($parkingFilter)); ?>
+
+    let voteButton = document.getElementById("vote-filter");
+    let parkingButton = document.getElementById("parking-filter");
+
+    if(voteFilter != -1)
+      voteButton.value = voteFilter;
+
+    if(parkingFilter != -1)
+      parkingButton.checked = true;
+  </script>
 </body>
 
 </html>
