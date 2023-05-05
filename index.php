@@ -40,7 +40,7 @@ $hotels = [
 
 ];
 
-$indexes = [];
+$indexes = array();
 
 if (!empty($_GET["voteFilter"])) {
   $voteFilter = $_GET["voteFilter"];
@@ -107,27 +107,34 @@ else
       <tbody>
 
         <?php
-        for ($i = 0; $i < count($indexes); $i++) {
-          $name = $hotels[$indexes[$i]]["name"];
-          $vote = $hotels[$indexes[$i]]["vote"];
+          if(count($indexes) < 1){
+            echo
+            "<tr>
+              <td colspan='5' class='text-center'> Nessun Hotel soddisfa i criteri di ricerca</td>
+            </tr>";
+          }
 
-          $parking = $hotels[$indexes[$i]]["parking"];
-          if($parking == 1)
-            $parking = "Si";
-          else
-            $parking = "No";
+          for ($i = 0; $i < count($indexes); $i++) {
+            $name = $hotels[$indexes[$i]]["name"];
+            $vote = $hotels[$indexes[$i]]["vote"];
 
-          $center = $hotels[$indexes[$i]]["distance_to_center"];
-          $description = $hotels[$indexes[$i]]["description"];
+            $parking = $hotels[$indexes[$i]]["parking"];
+            if($parking == 1)
+              $parking = "Si";
+            else
+              $parking = "No";
 
-          echo
-          "<tr>
-            <th scope='row'>$name</th>
-            <td>$vote</td>
-            <td>$parking</td>
-            <td>$center</td>
-            <td>$description</td>
-          </tr>";
+            $center = $hotels[$indexes[$i]]["distance_to_center"];
+            $description = $hotels[$indexes[$i]]["description"];
+
+            echo
+              "<tr>
+                <th scope='row'>$name</th>
+                <td>$vote</td>
+                <td>$parking</td>
+                <td>$center</td>
+                <td>$description</td>
+              </tr>";
         }
         ?>
       </tbody>
